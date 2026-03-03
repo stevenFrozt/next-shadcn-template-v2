@@ -1,36 +1,166 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Next.js 16 Application
 
-## Getting Started
+A modern web application built with **Next.js 16.1.6** using a clean,
+scalable, and production-ready stack.
 
-First, run the development server:
+------------------------------------------------------------------------
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🛠 Tech Stack
+
+### Framework
+
+-   Next.js 16.1.6
+-   React
+-   TypeScript
+
+### Libraries Used
+
+-   Axios -- HTTP client for API requests\
+-   SWR -- Data fetching with caching and revalidation\
+-   Zustand -- Lightweight state management\
+-   Yup -- Schema validation\
+-   Tailwind CSS -- Utility-first CSS framework\
+-   shadcn/ui -- Reusable and accessible UI components\
+-   Sonner -- Toast notifications
+
+------------------------------------------------------------------------
+
+## 📦 Installation
+
+Clone the repository:
+
+``` bash
+git clone <your-repo-url>
+cd <your-project-name>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+``` bash
+pnpm install
+# or
+npm install
+# or
+yarn install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+------------------------------------------------------------------------
 
-## Learn More
+## 🧑‍💻 Development
 
-To learn more about Next.js, take a look at the following resources:
+Run the development server:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+``` bash
+pnpm dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Application runs at:
 
-## Deploy on Vercel
+    http://localhost:3000
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+------------------------------------------------------------------------
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🏗 Recommended Project Structure
+
+    /app
+    /components
+    /hooks
+    /lib
+    /store
+    /styles
+
+------------------------------------------------------------------------
+
+## 🌐 Data Fetching (SWR + Axios)
+
+Example configuration:
+
+``` ts
+// lib/axios.ts
+import axios from "axios";
+
+export const api = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+});
+```
+
+Example usage:
+
+``` ts
+import useSWR from "swr";
+import { api } from "@/lib/axios";
+
+const fetcher = (url: string) => api.get(url).then(res => res.data);
+
+const { data, error, isLoading } = useSWR("/users", fetcher);
+```
+
+------------------------------------------------------------------------
+
+## 🧠 State Management (Zustand)
+
+``` ts
+import { create } from "zustand";
+
+interface AppState {
+  count: number;
+  increment: () => void;
+}
+
+export const useAppStore = create<AppState>((set) => ({
+  count: 0,
+  increment: () => set((state) => ({ count: state.count + 1 })),
+}));
+```
+
+------------------------------------------------------------------------
+
+## ✅ Form Validation (Yup)
+
+``` ts
+import * as yup from "yup";
+
+export const schema = yup.object({
+  email: yup.string().email().required(),
+  password: yup.string().min(6).required(),
+});
+```
+
+------------------------------------------------------------------------
+
+## 🎨 UI & Styling
+
+-   Styled using Tailwind CSS\
+-   UI components powered by shadcn/ui\
+-   Toast notifications handled by Sonner
+
+Example toast:
+
+``` ts
+import { toast } from "sonner";
+
+toast.success("Saved successfully!");
+```
+
+------------------------------------------------------------------------
+
+## 🏁 Production Build
+
+``` bash
+pnpm build
+pnpm start
+```
+
+------------------------------------------------------------------------
+
+## 📌 Environment Variables
+
+Create a `.env.local` file:
+
+    NEXT_PUBLIC_API_URL=http://localhost:5000
+
+------------------------------------------------------------------------
+
+## 📄 License
+
+This project is open-source and available under the MIT License.
